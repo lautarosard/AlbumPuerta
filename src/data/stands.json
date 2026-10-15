@@ -1,0 +1,35 @@
+[
+  {
+    "id": "stand-001",
+    "hashToken": "a8f9C2",
+    "name": "Neon Synth Garden",
+    "zone": "Zona A",
+    "creators": ["Valentina Ruiz", "Tomás Herrera"],
+    "technologies": ["Arduino", "Web Audio API", "Capacitive Sensors"],
+    "plotTwist": "The plants are the instrument: touching a leaf changes the pitch, and humidity made calibration a daily ritual.",
+    "imageUrl": "/images/stands/neon-synth-garden.webp",
+    "themeColor": "#00E5FF"
+  },
+  {
+    "id": "stand-002",
+    "hashToken": "Xk72pQ",
+    "name": "Pixel Muralist",
+    "zone": "Zona B",
+    "creators": ["Camila Ortega", "Joaquín Méndez", "Lucía Ferreyra"],
+    "technologies": ["React", "WebSockets", "Canvas API"],
+    "plotTwist": "Hundreds of phones paint the same mural live; they solved pixel conflicts with a last-write-wins timestamp per cell.",
+    "imageUrl": "/images/stands/pixel-muralist.webp",
+    "themeColor": "#E6007E"
+  },
+  {
+    "id": "stand-003",
+    "hashToken": "Zr4mT9",
+    "name": "Echo Drone",
+    "zone": "Zona C",
+    "creators": ["Martín Sosa"],
+    "technologies": ["Raspberry Pi", "Python", "OpenCV"],
+    "plotTwist": "A drone that follows sound instead of GPS. Its first prototype chased the venue's air conditioner for ten minutes.",
+    "imageUrl": "/images/stands/echo-drone.webp",
+    "themeColor": "#FFEB3B"
+  }
+]
