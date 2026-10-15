@@ -13,3 +13,11 @@ export interface Stand {
   /** Hex color used to accent this stand's card. */
   themeColor: string
 }
+
+/** Outcome of trying to unlock a stand from a scanned token. */
+export interface UnlockResult {
+  success: boolean
+  stand: Stand | null
+  isAlreadyUnlocked: boolean
+  message: string
+}
