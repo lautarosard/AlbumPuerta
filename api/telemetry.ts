@@ -1,3 +1,7 @@
+// Vercel type-checks this file on its own, without @types/node, so declare
+// the one Node global we use. Module-scoped: no clash when @types/node is loaded.
+declare const process: { env: Record<string, string | undefined> }
+
 import { neon } from '@neondatabase/serverless'
 import type { NeonQueryFunction } from '@neondatabase/serverless'
 import stands from '../src/data/stands.json' with { type: 'json' }
