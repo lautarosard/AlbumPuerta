@@ -3,7 +3,59 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Per-stand accent; cards and modals override it with the stand's themeColor. */
+    --accent: theme('colors.brand.cyan');
+    color-scheme: dark;
+  }
+
   body {
     @apply bg-brand-dark font-body text-white antialiased;
+  }
+}
+
+@layer utilities {
+  /* Comic-print dot screen used on locked cards and textures. */
+  .bg-halftone {
+    background-image: radial-gradient(theme('colors.brand.violet / 45%') 1px, transparent 1.6px);
+    background-size: 8px 8px;
+  }
+
+  /* Hazard / warning-tape stripes. */
+  .bg-tape-stripes {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      theme('colors.brand.yellow') 0 10px,
+      theme('colors.brand.dark') 10px 20px
+    );
+  }
+
+  /* Holographic foil sweep for the reward credential. */
+  .bg-holo {
+    background-image: linear-gradient(
+      115deg,
+      theme('colors.brand.magenta'),
+      theme('colors.brand.cyan'),
+      theme('colors.brand.yellow'),
+      theme('colors.brand.violet'),
+      theme('colors.brand.magenta')
+    );
+    background-size: 300% 100%;
+  }
+
+  /* Off-register "misprint" title, Spider-Verse style. */
+  .text-misprint {
+    text-shadow:
+      3px 0 0 theme('colors.brand.cyan / 85%'),
+      -3px 0 0 theme('colors.brand.magenta / 85%');
+  }
+
+  /* Hard offset shadow, like a sticker peeled off the page. */
+  .shadow-sticker {
+    box-shadow: 4px 4px 0 0 theme('colors.brand.cyan');
+  }
+
+  .pb-safe {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
 }

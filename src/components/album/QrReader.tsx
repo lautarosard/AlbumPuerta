@@ -7,7 +7,7 @@ type Status = { kind: 'starting' } | { kind: 'scanning' } | { kind: 'error'; err
 const errorCopy: Record<CameraError, { title: string; help: string }> = {
   denied: {
     title: 'Necesitamos permiso para usar la cámara',
-    help: 'Toca el ícono de candado o de cámara junto a la dirección web, permite el acceso a la cámara y vuelve a intentarlo.',
+    help: 'Tocá el ícono de candado o de cámara junto a la dirección web, permití el acceso a la cámara y volvé a intentarlo.',
   },
   'not-found': {
     title: 'No encontramos una cámara',
@@ -15,7 +15,7 @@ const errorCopy: Record<CameraError, { title: string; help: string }> = {
   },
   'in-use': {
     title: 'La cámara está ocupada',
-    help: 'Otra app está usando la cámara. Ciérrala y vuelve a intentarlo.',
+    help: 'Otra app está usando la cámara. Cerrala y volvé a intentarlo.',
   },
   insecure: {
     title: 'La cámara no está disponible',
@@ -23,7 +23,7 @@ const errorCopy: Record<CameraError, { title: string; help: string }> = {
   },
   unknown: {
     title: 'No pudimos iniciar la cámara',
-    help: 'Vuelve a intentarlo en unos segundos.',
+    help: 'Volvé a intentarlo en unos segundos.',
   },
 }
 
@@ -204,7 +204,7 @@ export function QrReader({ onDecode }: QrReaderProps) {
           </p>
           <p className="text-sm text-white/80">{errorCopy[status.error].help}</p>
           <p className="text-xs text-white/60">
-            También puedes escanear el QR del taller con la app de cámara de tu teléfono.
+            También podés escanear el QR del taller con la app de cámara de tu teléfono.
           </p>
           {status.error !== 'insecure' && status.error !== 'not-found' && (
             <button

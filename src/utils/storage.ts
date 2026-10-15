@@ -92,3 +92,22 @@ export function saveUnlockedStand(standId: string): void {
 export function resetProgress(): void {
   announceUnlockedChange(removeItem(UNLOCKED_STANDS_KEY))
 }
+
+const INSTALL_BANNER_DISMISSED_KEY = 'p18_install_banner_dismissed'
+
+// Session-scoped on purpose: the install banner comes back on the next visit.
+export function isInstallBannerDismissed(): boolean {
+  try {
+    return sessionStorage.getItem(INSTALL_BANNER_DISMISSED_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
+export function dismissInstallBanner(): void {
+  try {
+    sessionStorage.setItem(INSTALL_BANNER_DISMISSED_KEY, '1')
+  } catch {
+    // Falls back to hiding it for the current page view only.
+  }
+}

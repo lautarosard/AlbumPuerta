@@ -21,18 +21,20 @@ export default function ScannerView() {
   )
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col items-center gap-6 px-4 py-8">
+    <main className="pb-safe mx-auto flex min-h-dvh max-w-md flex-col items-center gap-6 px-4 pt-8">
       <header className="text-center">
-        <h1 className="font-display text-4xl text-brand-cyan">Escanea un cromo</h1>
-        <p className="text-sm text-white/70">Apunta la cámara al código QR del taller.</p>
+        <h1 className="text-misprint font-display text-5xl tracking-wide">ESCANEÁ UN CROMO</h1>
+        <p className="mt-1 text-sm text-white/70">Apuntá la cámara al código QR del taller.</p>
       </header>
 
-      <QrReader onDecode={handleDecode} />
+      <div className="w-full max-w-sm rounded-[1.25rem] border-4 border-dashed border-brand-cyan/60 p-1">
+        <QrReader onDecode={handleDecode} />
+      </div>
 
       <Link
         to="/"
         replace
-        className="rounded-full border border-white/20 px-6 py-2 text-sm font-semibold hover:border-brand-magenta"
+        className="mt-auto w-full rounded-2xl border-2 border-white/20 py-3 text-center font-display text-2xl tracking-wider transition-colors hover:border-brand-magenta active:scale-[0.98]"
       >
         Cancelar / Volver al Álbum
       </Link>

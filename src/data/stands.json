@@ -4,10 +4,17 @@
     "hashToken": "a8f9C2",
     "name": "Neon Synth Garden",
     "zone": "Zona A",
-    "creators": ["Valentina Ruiz", "Tomás Herrera"],
-    "technologies": ["Arduino", "Web Audio API", "Capacitive Sensors"],
-    "plotTwist": "The plants are the instrument: touching a leaf changes the pitch, and humidity made calibration a daily ritual.",
-    "imageUrl": "/images/stands/neon-synth-garden.webp",
+    "creators": [
+      "Valentina Ruiz",
+      "Tomás Herrera"
+    ],
+    "technologies": [
+      "Arduino",
+      "Web Audio API",
+      "Capacitive Sensors"
+    ],
+    "plotTwist": "Las plantas son el instrumento: tocar una hoja cambia la nota, y la humedad del lugar convirtió la calibración en un ritual diario.",
+    "imageUrl": "/images/stands/neon-synth-garden.svg",
     "themeColor": "#00E5FF"
   },
   {
@@ -15,10 +22,18 @@
     "hashToken": "Xk72pQ",
     "name": "Pixel Muralist",
     "zone": "Zona B",
-    "creators": ["Camila Ortega", "Joaquín Méndez", "Lucía Ferreyra"],
-    "technologies": ["React", "WebSockets", "Canvas API"],
-    "plotTwist": "Hundreds of phones paint the same mural live; they solved pixel conflicts with a last-write-wins timestamp per cell.",
-    "imageUrl": "/images/stands/pixel-muralist.webp",
+    "creators": [
+      "Camila Ortega",
+      "Joaquín Méndez",
+      "Lucía Ferreyra"
+    ],
+    "technologies": [
+      "React",
+      "WebSockets",
+      "Canvas API"
+    ],
+    "plotTwist": "Cientos de celulares pintan el mismo mural en vivo; resolvieron los conflictos de píxeles guardando la última escritura por celda con su marca de tiempo.",
+    "imageUrl": "/images/stands/pixel-muralist.svg",
     "themeColor": "#E6007E"
   },
   {
@@ -26,10 +41,16 @@
     "hashToken": "Zr4mT9",
     "name": "Echo Drone",
     "zone": "Zona C",
-    "creators": ["Martín Sosa"],
-    "technologies": ["Raspberry Pi", "Python", "OpenCV"],
-    "plotTwist": "A drone that follows sound instead of GPS. Its first prototype chased the venue's air conditioner for ten minutes.",
-    "imageUrl": "/images/stands/echo-drone.webp",
+    "creators": [
+      "Martín Sosa"
+    ],
+    "technologies": [
+      "Raspberry Pi",
+      "Python",
+      "OpenCV"
+    ],
+    "plotTwist": "Un dron que sigue al sonido en vez del GPS. Su primer prototipo persiguió al aire acondicionado de la sala durante diez minutos.",
+    "imageUrl": "/images/stands/echo-drone.svg",
     "themeColor": "#FFEB3B"
   }
 ]

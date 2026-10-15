@@ -1,79 +1,113 @@
 import { useCallback, useEffect, useState } from 'react'
+import { AlbumGrid } from '../components/album/AlbumGrid'
+import { AlbumHeader } from '../components/album/AlbumHeader'
+import { CromoModal } from '../components/album/CromoModal'
+import { RewardModal } from '../components/album/RewardModal'
+import { PwaBanner } from '../components/ui/PwaBanner'
+import { ScanFab } from '../components/ui/ScanFab'
 import { Toast } from '../components/ui/Toast'
 import type { ToastVariant } from '../components/ui/Toast'
 import { useAlbum } from '../hooks/useAlbum'
-import { Link, navigate, useLocation } from '../router'
-import type { UnlockResult } from '../types'
+import { navigate, useLocation } from '../router'
+import type { Stand, UnlockResult } from '../types'
 import { isAlbumLocationState } from '../utils/token'
 
-function toastVariant(result: UnlockResult): ToastVariant {
-  if (!result.success) return 'error'
-  return result.isAlreadyUnlocked ? 'info' : 'success'
+interface ToastState {
+  message: string
+  variant: ToastVariant
+  nonce: number
 }
 
-// Placeholder album; the real sticker grid arrives in a later stage.
+const LOCKED_HINT = 'Encontrá este taller en la muestra y escaneá su QR'
+
+function toastFromResult(result: UnlockResult): ToastState {
+  const variant: ToastVariant = !result.success
+    ? 'error'
+    : result.isAlreadyUnlocked
+      ? 'info'
+      : 'success'
+  return { message: result.message, variant, nonce: Date.now() }
+}
+
 export default function AlbumView() {
-  const { stands, unlockedIds, progress, isCompleted, resetAlbum } = useAlbum()
+  const { stands, unlockedIds, progress, isCompleted, userId, resetAlbum } = useAlbum()
   const location = useLocation()
-  const [result, setResult] = useState<UnlockResult | null>(() =>
+
+  // The scan result handed over by /scan or /scanner, read once on arrival.
+  const [scanResult] = useState<UnlockResult | null>(() =>
     isAlbumLocationState(location.state) ? location.state.unlockResult : null,
   )
+  const justUnlocked = scanResult?.success && !scanResult.isAlreadyUnlocked
+  const scannedId = scanResult?.success ? scanResult.stand?.id : undefined
 
-  // Consume the scan result once so a reload doesn't show the toast again.
+  const [toast, setToast] = useState<ToastState | null>(() =>
+    scanResult ? toastFromResult(scanResult) : null,
+  )
+  const [selected, setSelected] = useState<Stand | null>(null)
+  // Celebrate automatically only when this scan completed the album.
+  const [rewardOpen, setRewardOpen] = useState(() => Boolean(justUnlocked && isCompleted))
+
+  // Consume the scan result so a reload doesn't replay the toast/animation.
   useEffect(() => {
     if (isAlbumLocationState(window.history.state)) {
       navigate(window.location.pathname, { replace: true })
     }
   }, [])
 
-  const dismissToast = useCallback(() => setResult(null), [])
-  const highlightedId = result?.success ? result.stand?.id : undefined
+  const dismissToast = useCallback(() => setToast(null), [])
+  const closeDetail = useCallback(() => setSelected(null), [])
+  const closeReward = useCallback(() => setRewardOpen(false), [])
+  const showLockedHint = useCallback(() => {
+    setToast({ message: LOCKED_HINT, variant: 'info', nonce: Date.now() })
+  }, [])
+
+  const selectedNumber = selected ? stands.findIndex((s) => s.id === selected.id) + 1 : 0
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col gap-6 px-4 py-8">
-      <header>
-        <h1 className="font-display text-5xl text-brand-magenta">Puerta 18</h1>
-        <p className="text-white/70">
-          {unlockedIds.length} / {stands.length} cromos · {progress}%
-          {isCompleted && ' · ¡Álbum completo!'}
-        </p>
-      </header>
+    <>
+      <main className="mx-auto flex min-h-dvh max-w-md flex-col gap-6 px-4 pb-36 pt-4">
+        <PwaBanner />
 
-      <ul className="space-y-2">
-        {stands.map((stand) => {
-          const unlocked = unlockedIds.includes(stand.id)
-          return (
-            <li
-              key={stand.id}
-              data-highlighted={stand.id === highlightedId || undefined}
-              className={`rounded-xl bg-brand-surface px-4 py-3 ${
-                stand.id === highlightedId ? 'ring-2 ring-brand-yellow' : ''
-              } ${unlocked ? '' : 'opacity-50'}`}
-            >
-              {unlocked ? stand.name : '???'}
-            </li>
-          )
-        })}
-      </ul>
+        <AlbumHeader
+          progress={progress}
+          unlockedCount={stands.filter((s) => unlockedIds.includes(s.id)).length}
+          total={stands.length}
+          isCompleted={isCompleted}
+          onClaimReward={() => setRewardOpen(true)}
+        />
 
-      <Link
-        to="/scanner"
-        className="rounded-full bg-brand-cyan px-6 py-3 text-center font-semibold text-brand-dark"
-      >
-        Escanear QR
-      </Link>
+        <AlbumGrid
+          stands={stands}
+          unlockedIds={unlockedIds}
+          focusId={scannedId}
+          newId={justUnlocked ? scannedId : undefined}
+          onOpen={setSelected}
+          onLockedTap={showLockedHint}
+        />
 
-      {import.meta.env.DEV && (
-        <button type="button" onClick={resetAlbum} className="text-xs text-white/50 underline">
-          Reiniciar álbum (solo desarrollo)
-        </button>
-      )}
+        {import.meta.env.DEV && (
+          <button
+            type="button"
+            onClick={resetAlbum}
+            className="self-center text-xs text-white/40 underline"
+          >
+            Reiniciar álbum (solo desarrollo)
+          </button>
+        )}
+      </main>
+
+      <ScanFab />
+
+      <CromoModal stand={selected} number={selectedNumber} onClose={closeDetail} />
+      <RewardModal open={rewardOpen} onClose={closeReward} userId={userId} />
 
       <Toast
-        message={result?.message ?? null}
-        variant={result ? toastVariant(result) : undefined}
+        message={toast?.message ?? null}
+        variant={toast?.variant}
+        nonce={toast?.nonce}
         onDismiss={dismissToast}
+        aboveFab
       />
-    </main>
+    </>
   )
 }

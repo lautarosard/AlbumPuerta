@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800">
+  <!-- Placeholder artwork: replace with the stand's real photo. -->
+  <defs>
+    <pattern id="dots" width="14" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="7" cy="7" r="2.4" fill="#00E5FF" opacity="0.35"/>
+    </pattern>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b2a33"/>
+      <stop offset="1" stop-color="#121212"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#bg)"/>
+  <rect width="600" height="800" fill="url(#dots)"/>
+  <!-- Leaves wired like synth keys -->
+  <g fill="none" stroke="#00E5FF" stroke-width="10" stroke-linecap="round">
+    <path d="M300 720 C300 560 300 420 300 300"/>
+    <path d="M300 520 C220 470 160 420 140 330 C230 340 280 410 300 470"/>
+    <path d="M300 430 C380 380 450 340 470 250 C380 260 320 320 300 380"/>
+    <path d="M300 300 C260 230 270 160 300 110 C330 160 340 230 300 300"/>
+  </g>
+  <g fill="#E6007E">
+    <circle cx="140" cy="330" r="16"/>
+    <circle cx="470" cy="250" r="16"/>
+    <circle cx="300" cy="110" r="16"/>
+  </g>
+  <g stroke="#FFEB3B" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.9">
+    <path d="M90 620 q30 -40 60 0 t60 0 t60 0"/>
+    <path d="M330 640 q30 -40 60 0 t60 0 t60 0"/>
+  </g>
+</svg>

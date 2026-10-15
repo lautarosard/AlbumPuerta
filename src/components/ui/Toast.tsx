@@ -9,6 +9,10 @@ interface ToastProps {
   onDismiss: () => void
   /** Auto-dismiss delay in ms; 0 keeps the toast until closed. */
   duration?: number
+  /** Change to restart the timer when the same message is shown again. */
+  nonce?: number
+  /** Lift the toast above a fixed bottom action bar. */
+  aboveFab?: boolean
 }
 
 const variantStyles: Record<ToastVariant, string> = {
@@ -23,12 +27,19 @@ const variantIcons: Record<ToastVariant, string> = {
   error: '!',
 }
 
-export function Toast({ message, variant = 'info', onDismiss, duration = 4000 }: ToastProps) {
+export function Toast({
+  message,
+  variant = 'info',
+  onDismiss,
+  duration = 4000,
+  nonce,
+  aboveFab = false,
+}: ToastProps) {
   useEffect(() => {
     if (!message || duration <= 0) return
     const timer = window.setTimeout(onDismiss, duration)
     return () => window.clearTimeout(timer)
-  }, [message, duration, onDismiss])
+  }, [message, duration, onDismiss, nonce])
 
   // The live region must exist before its content changes for screen readers
   // to announce it, so it is always rendered and only its content toggles.
@@ -37,11 +48,16 @@ export function Toast({ message, variant = 'info', onDismiss, duration = 4000 }:
       role="status"
       aria-live="polite"
       aria-atomic="true"
-      className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center p-4 pb-[max(1rem,env(safe-area-inset-bottom))]"
+      className={`pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 ${
+        aboveFab
+          ? 'pb-[calc(max(1rem,env(safe-area-inset-bottom))+5rem)]'
+          : 'pb-[max(1rem,env(safe-area-inset-bottom))]'
+      }`}
     >
       {message && (
         <div
-          className={`pointer-events-auto flex w-full max-w-sm items-center gap-3 rounded-xl border-l-4 bg-brand-surface px-4 py-3 shadow-lg ${variantStyles[variant]}`}
+          key={nonce}
+          className={`motion-safe:animate-fade-in pointer-events-auto flex w-full max-w-sm items-center gap-3 rounded-xl border-l-4 bg-brand-surface px-4 py-3 shadow-lg shadow-black/50 ${variantStyles[variant]}`}
         >
           <span aria-hidden="true" className="font-display text-xl">
             {variantIcons[variant]}
