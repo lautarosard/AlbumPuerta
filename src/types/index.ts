@@ -21,3 +21,8 @@ export interface UnlockResult {
   isAlreadyUnlocked: boolean
   message: string
 }
+
+/** History state handed to the album view after a scan attempt. */
+export interface AlbumLocationState {
+  unlockResult: UnlockResult
+}

@@ -1,5 +1,7 @@
 export const USER_ID_KEY = 'p18_user_id'
 export const UNLOCKED_STANDS_KEY = 'p18_unlocked_stands'
+/** Fired on window when progress changes in this tab ('storage' only fires in other tabs). */
+export const UNLOCKED_CHANGED_EVENT = 'p18:unlocked-changed'
 
 // localStorage can throw (private mode, blocked site data, quota), so every
 // access goes through these wrappers and falls back to "nothing stored".
@@ -11,20 +13,30 @@ function readItem(key: string): string | null {
   }
 }
 
-function writeItem(key: string, value: string): void {
+function writeItem(key: string, value: string): boolean {
   try {
     localStorage.setItem(key, value)
+    return true
   } catch {
     // Progress just won't persist on this device.
+    return false
   }
 }
 
-function removeItem(key: string): void {
+function removeItem(key: string): boolean {
   try {
     localStorage.removeItem(key)
+    return true
   } catch {
     // Nothing to clear if storage is unavailable.
+    return false
   }
+}
+
+// Only announce changes that actually reached storage; otherwise listeners
+// would re-read an empty store and wipe in-memory progress.
+function announceUnlockedChange(persisted: boolean): void {
+  if (persisted) window.dispatchEvent(new Event(UNLOCKED_CHANGED_EVENT))
 }
 
 // crypto.randomUUID only exists in secure contexts (HTTPS or localhost), so
@@ -74,9 +86,9 @@ export function getUnlockedStands(): string[] {
 export function saveUnlockedStand(standId: string): void {
   const unlocked = getUnlockedStands()
   if (unlocked.includes(standId)) return
-  writeItem(UNLOCKED_STANDS_KEY, JSON.stringify([...unlocked, standId]))
+  announceUnlockedChange(writeItem(UNLOCKED_STANDS_KEY, JSON.stringify([...unlocked, standId])))
 }
 
 export function resetProgress(): void {
-  removeItem(UNLOCKED_STANDS_KEY)
+  announceUnlockedChange(removeItem(UNLOCKED_STANDS_KEY))
 }
