@@ -1,18 +1,21 @@
 import { useState } from 'react'
-import { isIos, promptInstall, useInstallPrompt } from '../../hooks/useInstallPrompt'
+import { useInstallPrompt } from '../../hooks/useInstallPrompt'
+import { isIos, promptInstall } from '../../services/pwa'
 import { dismissInstallBanner, isInstallBannerDismissed } from '../../utils/storage'
 import { CloseIcon, ShareIcon } from './icons'
 
 /**
  * Discreet install banner. Uses the native prompt where the browser supports
- * it (Chromium), a manual tip on iOS, and stays hidden everywhere else or
- * once the app is installed.
+ * it (Chromium fires it only once the manifest + service worker qualify), a
+ * manual tip on iOS once the service worker has cached the app for offline
+ * use, and stays hidden everywhere else or once installed.
  */
 export function PwaBanner() {
-  const { canPrompt, isInstalled } = useInstallPrompt()
+  const { canPrompt, isInstalled, offlineReady } = useInstallPrompt()
   const [dismissed, setDismissed] = useState(isInstallBannerDismissed)
 
-  if (dismissed || isInstalled || (!canPrompt && !isIos)) return null
+  const showIosTip = !canPrompt && isIos && offlineReady
+  if (dismissed || isInstalled || (!canPrompt && !showIosTip)) return null
 
   function close() {
     dismissInstallBanner()
@@ -28,7 +31,7 @@ export function PwaBanner() {
         <p className="font-semibold">
           ¡Instalá la app para jugar sin <span className="whitespace-nowrap">conexión! 📲</span>
         </p>
-        {!canPrompt && isIos && (
+        {showIosTip && (
           <p className="mt-1 text-xs text-white/70">
             Tocá <ShareIcon className="inline h-4 w-4 align-text-bottom text-brand-cyan" />{' '}
             <span className="sr-only">Compartir</span> y luego “Agregar a inicio”.

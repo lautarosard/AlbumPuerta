@@ -2,22 +2,27 @@ import { useCallback } from 'react'
 import { QrReader } from '../components/album/QrReader'
 import { useAlbum } from '../hooks/useAlbum'
 import { Link, navigate } from '../router'
+import { trackScan } from '../services/telemetry'
 import type { AlbumLocationState } from '../types'
 import { INVALID_TOKEN_RESULT, extractToken } from '../utils/token'
 
 /** In-app camera scanner for visitors already inside the album. */
 export default function ScannerView() {
-  const { unlockByToken } = useAlbum()
+  const { unlockByToken, userId } = useAlbum()
 
   const handleDecode = useCallback(
     (text: string) => {
       const token = extractToken(text)
       const unlockResult = token ? unlockByToken(token) : INVALID_TOKEN_RESULT
+      // Only first unlocks are reported, so re-scans don't inflate stand counts.
+      if (unlockResult.success && !unlockResult.isAlreadyUnlocked && unlockResult.stand) {
+        trackScan(userId, unlockResult.stand.id)
+      }
       // Replace so going back from the album doesn't reopen the camera.
       const state: AlbumLocationState = { unlockResult }
       navigate('/', { replace: true, state })
     },
-    [unlockByToken],
+    [unlockByToken, userId],
   )
 
   return (

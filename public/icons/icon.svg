@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Puerta 18 app icon: a misprinted doorway ("puerta") sticker on a halftone page. -->
+  <defs>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="3" fill="#8A2BE2" opacity="0.45"/>
+    </pattern>
+    <clipPath id="tile"><rect width="512" height="512" rx="112"/></clipPath>
+  </defs>
+  <g clip-path="url(#tile)">
+    <rect width="512" height="512" fill="#121212"/>
+    <rect width="512" height="512" fill="url(#dots)"/>
+  </g>
+  <!-- Off-register cyan copy of the door -->
+  <path d="M182 418V178a74 74 0 0 1 148 0v240Z" fill="#00E5FF" transform="translate(16 10)"/>
+  <!-- Door -->
+  <path d="M182 418V178a74 74 0 0 1 148 0v240Z" fill="#E6007E"/>
+  <path d="M212 418V190a44 44 0 0 1 88 0v228" fill="none" stroke="#121212" stroke-width="12" opacity="0.35"/>
+  <circle cx="284" cy="306" r="14" fill="#FFEB3B"/>
+  <!-- Floor line -->
+  <rect x="120" y="412" width="272" height="16" rx="8" fill="#FFFFFF"/>
+</svg>

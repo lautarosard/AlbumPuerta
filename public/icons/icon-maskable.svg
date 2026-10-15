@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Maskable variant: full-bleed background, artwork inside the central 80% safe zone. -->
+  <defs>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="3" fill="#8A2BE2" opacity="0.45"/>
+    </pattern>
+  </defs>
+  <rect width="512" height="512" fill="#121212"/>
+  <rect width="512" height="512" fill="url(#dots)"/>
+  <g transform="translate(256 256) scale(0.72) translate(-256 -290)">
+    <path d="M182 418V178a74 74 0 0 1 148 0v240Z" fill="#00E5FF" transform="translate(16 10)"/>
+    <path d="M182 418V178a74 74 0 0 1 148 0v240Z" fill="#E6007E"/>
+    <path d="M212 418V190a44 44 0 0 1 88 0v228" fill="none" stroke="#121212" stroke-width="12" opacity="0.35"/>
+    <circle cx="284" cy="306" r="14" fill="#FFEB3B"/>
+    <rect x="120" y="412" width="272" height="16" rx="8" fill="#FFFFFF"/>
+  </g>
+</svg>
